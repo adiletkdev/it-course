@@ -1,19 +1,27 @@
-import React from 'react';
-import { HhData, Htag, Tag } from '../../components';
+import React, { useReducer } from 'react';
+import { Advantages, HhData, Htag, Sort, Tag, } from '../../components';
 import { TopPageComponentProps } from './TopPageComponent.props';
 import styles from './TopPageComponent.module.css';
 import { TopLevelCategory } from '../../interfaces/page.interface';
+import parse from 'html-react-parser';
+import { SortEnum } from '../../components/Sort/Sort.props';
+import { SortReducer } from './sort.reducer';
 
 export const TopPageComponent = ({ firstCategory, page, products }: TopPageComponentProps): JSX.Element => {
+  const [{ products: sortedProducts, sort }, dispathSort] = useReducer(SortReducer, { products, sort: SortEnum.Rating });
+  const setSort = (sort: SortEnum) => {
+    dispathSort({ type: sort });
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
         <Htag tag='h1'>{page.title}</Htag>
         {products && <Tag color='gray' size='m'>{products.length}</Tag>}
-        <span>Сортировка</span>
+        <Sort sort={sort} setSort={setSort} />
       </div >
       <div>
-        {products && products.map(p => (<div key={p._id}>{p.title}</div>))}
+        {sortedProducts && sortedProducts.map(p => (<div key={p._id}>{p.title}</div>))}
       </div>
       <div>
         <div className={styles.hhTitle}>
@@ -21,7 +29,16 @@ export const TopPageComponent = ({ firstCategory, page, products }: TopPageCompo
           <Tag color='red' size='m'>hh.ru</Tag>
         </div >
       </div>
-      {firstCategory === TopLevelCategory.Courses && <HhData {...page.hh} />}
-    </div>
+      {firstCategory === TopLevelCategory.Courses && page.hh && <HhData {...page.hh} />}
+      {page.advantages && page.advantages.length > 0 &&
+        <>
+          <Htag tag='h2'>Преимущества</Htag>
+          <Advantages advantages={page.advantages} />
+        </>
+      }
+      {page.seoText && <p>{parse(page.seoText)}</p>}
+      <Htag tag='h2'>Получаемые навыки</Htag>
+      {page.tags.map(t => <Tag key={t} color='primary'>{t}</Tag>)}
+    </div >
   );
 };

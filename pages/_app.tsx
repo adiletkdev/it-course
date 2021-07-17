@@ -6,7 +6,7 @@ import React from 'react';
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return <>
     <Head>
-      <title>My top - Мой лучший топ</title>
+      <title>IT Course</title>
       <link rel="icon" href="/favicon.ico" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> */}

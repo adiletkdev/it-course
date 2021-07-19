@@ -281,4 +281,14 @@
 		"actions"
 		;
 	}
+
+	.actions {
+		display: grid;
+		gap: 10px;
+		justify-items: left;
+	}
+
+	.actions button {
+		margin-left: 0;
+	}
 }

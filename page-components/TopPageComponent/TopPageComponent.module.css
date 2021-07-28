@@ -35,3 +35,9 @@
 	line-height: 27px;
 	margin: 0;
 }
+
+@media screen and (max-width: 480px) {
+	.title {
+		grid-template-columns: auto auto;
+	}
+}
